@@ -10,17 +10,21 @@
      var params = "";
      var options = "";
 
+     import {sharedData} from "./shared.js";
      function makeReq() {
           errors = "";
-          var urlToFetch = scheme + '://' + url + '?' + params;
+          var urlToFetch = scheme + '://' + url + '?' + (params ? params : "");
           try {
-               var optionsJSON = JSON.parse(options);
+               var optionsJSON = options ? JSON.parse(options) : {};
                fetch(urlToFetch, optionsJSON)
                .then(response => response.json())
-               .then(data => errors=data)
+               .then(data => {
+                    sharedData.update(s => data);
+               })
                .catch((error) => {errors = error});
           } catch (e) {
                errors = e;
+               console.log(e);
           }
      }
 </script>
@@ -34,7 +38,7 @@
           </select>
           <span class="monospace">://</span>
           <input required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="full-width monospace" type="text" placeholder="URL" bind:value={url}>
-          <input required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="full-width monospace" type="text" placeholder="parameters" bind:value={params}>
+          <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="full-width monospace" type="text" placeholder="parameters" bind:value={params}>
      
           <div class="container">
                <pre
@@ -42,7 +46,7 @@
                     style="min-height: {minHeight}; max-height: {maxHeight}"
                >{options + '\n'}</pre>
           
-               <textarea required autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="non-resizable full-width monospace" placeholder="options" bind:value={options}></textarea>	
+               <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="non-resizable full-width monospace" placeholder="options" bind:value={options}></textarea>	
           </div>
 
           <input type="submit" class="make-request-button" value="Make Request ➡️">

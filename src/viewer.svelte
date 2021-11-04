@@ -1,17 +1,23 @@
 <script>
-	
+     import {sharedData} from "./shared.js";
+     var viewerMainContent = "";
+     sharedData.subscribe(value => {
+          viewerMainContent = JSON.stringify(value);
+     });
 </script>
 
 <div class="viewer">
-
+     {viewerMainContent}
 </div>
 
 <style>
 	.viewer {
+          font-family: 'Courier New', Courier, monospace;
           position: fixed;
-          width: calc(50% - 8px);
+          width: calc(50% - 28px);
           background-color: var(--viewer-background);
-          height: calc(100% - 16px);
+          height: calc(100% - 36px);
+          padding: 10px;
           margin-top: 8px;
           margin-right: 4px;
           margin-bottom: 8px;
