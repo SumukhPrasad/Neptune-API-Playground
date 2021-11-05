@@ -2,7 +2,11 @@
      import {sharedData} from "./shared.js";
      var viewerMainContent = "";
      sharedData.subscribe(value => {
-          viewerMainContent = JSON.stringify(value);
+          try {
+               viewerMainContent = JSON.stringify(value);
+          } catch (e) {
+               viewerMainContent = value;
+          }
      });
 </script>
 
